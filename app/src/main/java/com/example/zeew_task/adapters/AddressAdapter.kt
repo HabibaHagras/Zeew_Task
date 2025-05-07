@@ -44,7 +44,6 @@ class AddressAdapter(
             holder.deleteIcon.visibility = View.VISIBLE
         }
 
-        // Delete click listener example
         holder.deleteIcon.setOnClickListener {
             Snackbar.make(view, "Deleted: ${currentAddress.address1}", Snackbar.LENGTH_SHORT).show()
         }

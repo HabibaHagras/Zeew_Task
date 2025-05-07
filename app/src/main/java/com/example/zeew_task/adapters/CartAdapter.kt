@@ -14,8 +14,8 @@ import com.google.android.material.snackbar.Snackbar
 
 class CartAdapter(
     private val context: Context,
-    private val itemList: List<CartItem>, // ده الموديل اللي بتستخدميه
-    private val view: View // ممكن تستخدمه في SnackBar أو غيره
+    private val itemList: List<CartItem>,
+    private val view: View
 ) : RecyclerView.Adapter<CartAdapter.CartViewHolder>() {
 
     class CartViewHolder(val binding: CartItemBinding) : RecyclerView.ViewHolder(binding.root)
@@ -28,28 +28,24 @@ class CartAdapter(
     override fun onBindViewHolder(holder: CartViewHolder, position: Int) {
         val item = itemList[position]
 
-        // تحميل الصورة من URL (لو موجودة)
         val imageUrl = item.imageUrl
         if (!imageUrl.isNullOrEmpty()) {
             Glide.with(context)
                 .load(imageUrl)
-                .placeholder(R.drawable.adidas) // صورة مؤقتة
-                .error(R.drawable.logout)       // لو حصل خطأ
+                .placeholder(R.drawable.adidas)
+                .error(R.drawable.logout)
                 .into(holder.binding.imageView)
         } else {
             Log.i("CartAdapter", "No image found, using placeholder.")
             holder.binding.imageView.setImageResource(R.drawable.adidas)
         }
 
-        // بيانات المنتج
         holder.binding.itemName.text = item.title
         holder.binding.itemDetails.text = item.details ?: "No details"
         holder.binding.quantityText.text = item.quantity.toString()
         holder.binding.currency.text = item.price + " USD"
 
-        // حذف المنتج
         holder.binding.deleteIcon.setOnClickListener {
-            // هنا ممكن تنادي على فنكشن أو تبعتي callback
             Snackbar.make(view, "${item.title} removed", Snackbar.LENGTH_SHORT).show()
         }
     }
